@@ -47,6 +47,8 @@ def minimal_f(q: typing.List[Vertex]) -> int:
     return k
 
 
+
+
 def A1(graph: typing.List[Edge], start: str, end: str):
     q = []
     u = []
@@ -56,6 +58,7 @@ def A1(graph: typing.List[Edge], start: str, end: str):
     print("Записываем " + "'" + begin.name +"'" + " в список рассматриваемых вершин")
 
     while q:
+
         index = minimal_f(q)
         current = q[index]
         if current.name == end:
@@ -63,8 +66,16 @@ def A1(graph: typing.List[Edge], start: str, end: str):
             return True
         print("Удаляем " + "'" + q[index].name + "'" + " из списка рассматриваемых вершин")
         q.pop(index)
+        print("Cписок рассматриваемых вершин:")
+        for i in range(len(q)):
+            print(q[i].name, end="")
+        print(" ")
         print("Записываем " + "'" + current.name + "'" + " в список посещенных вершин")
         u.append(current)
+        print("Cписок посещенных вершин:")
+        for i in range(len(u)):
+            print(u[i].name, end = "")
+        print(" ")
 
         for i in range(len(graph)):
             if current.name == graph[i].src:
@@ -75,12 +86,15 @@ def A1(graph: typing.List[Edge], start: str, end: str):
                 print("Выбрана вершина: " + "'" + neighbor.name + "'")
                 l = str(graph[i].weight)
                 print("Вес текущего ребра " + "'" + current.name + neighbor.name + "'" + " равен: " + l)
+                print(" наименьшая стоимость пути в' " + neighbor.name + "' из стартовой вершины = "+ str(neighbor.g))
+                print(" эвристическое приближение стоимости пути от ' " + neighbor.name + "' до конечной цели." + str(neighbor.f-neighbor.g))
                 if neighbor in u:
                     continue
 
                 if neighbor not in q:
                     q.append(neighbor)
                     print("Записываем " + "'" + neighbor.name + "'" + "в список рассматриваемых вершин")
+
                 else:
                     index_neighbor = q.index(neighbor)
 
@@ -89,6 +103,8 @@ def A1(graph: typing.List[Edge], start: str, end: str):
                         q[index_neighbor].src = current
                         q[index_neighbor].g = neighbor.g
                         q[index_neighbor].f = neighbor.f
+
+
     return False
 
 
