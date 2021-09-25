@@ -14,7 +14,6 @@ class Edge:
         self.dest = dest
         self.weight = weight
 
-
 class Vertex:
 
     def __init__(self, name: str, src: typing.Any, f: int, g: int):
@@ -22,7 +21,7 @@ class Vertex:
         self.src = src
         self.f = f
         self.g = g
-
+        
     def __str__(self) -> str:
         if self.src:
             return str(self.src) + self.name
@@ -45,8 +44,15 @@ def minimal_f(q: typing.List[Vertex]) -> int:
             k = i
 
     return k
-
-
+def anti(q):
+    print("Список  (анти)приоритетов:")
+    print("Название верщины(v)" + " " + "f(v)" + " " + "h(v)")
+    for x in range(len(q) - 1):
+        for j in range(len(q) - x - 1):
+            if q[j].f > q[j + 1].f:
+                q[j], q[j + 1] = q[j + 1], q[j]
+    for i in range(0, len(q)):
+        print(q[i].name + " " + str(q[i].f) + " " + str(q[i].g))
 
 
 def A1(graph: typing.List[Edge], start: str, end: str):
@@ -58,19 +64,22 @@ def A1(graph: typing.List[Edge], start: str, end: str):
     print("Записываем " + "'" + begin.name +"'" + " в список рассматриваемых вершин")
 
     while q:
-
+        anti(q)
         index = minimal_f(q)
         current = q[index]
         if current.name == end:
+            print("Конец выполнения алгоритма")
             print("Ответ: "  + str(current))
             return True
         print("Удаляем " + "'" + q[index].name + "'" + " из списка рассматриваемых вершин")
         q.pop(index)
+
         print("Cписок рассматриваемых вершин:")
         for i in range(len(q)):
             print(q[i].name, end="")
         print(" ")
         print("Записываем " + "'" + current.name + "'" + " в список посещенных вершин")
+        anti(q)
         u.append(current)
         print("Cписок посещенных вершин:")
         for i in range(len(u)):
@@ -79,10 +88,11 @@ def A1(graph: typing.List[Edge], start: str, end: str):
 
         for i in range(len(graph)):
             if current.name == graph[i].src:
-                print("Находим смежную вершину для " + "'" + current.name + "'" + " c наименьшей эвристикой и наименьшим весом")
+                print("Находим смежную вершину для " + "'" + current.name + "'" + "с наименьшим (анти)приоритетом")
                 neighbor = Vertex(graph[i].dest, current,
                                   abs(ord(end) - ord(graph[i].dest)) + graph[i].weight + current.g,
                                   graph[i].weight + current.g)
+                anti(q)
                 print("Выбрана вершина: " + "'" + neighbor.name + "'")
                 l = str(graph[i].weight)
                 print("Вес текущего ребра " + "'" + current.name + neighbor.name + "'" + " равен: " + l)
@@ -94,6 +104,7 @@ def A1(graph: typing.List[Edge], start: str, end: str):
                 if neighbor not in q:
                     q.append(neighbor)
                     print("Записываем " + "'" + neighbor.name + "'" + "в список рассматриваемых вершин")
+                    anti(q)
 
                 else:
                     index_neighbor = q.index(neighbor)
@@ -103,8 +114,7 @@ def A1(graph: typing.List[Edge], start: str, end: str):
                         q[index_neighbor].src = current
                         q[index_neighbor].g = neighbor.g
                         q[index_neighbor].f = neighbor.f
-
-
+                        anti(q)
     return False
 
 
