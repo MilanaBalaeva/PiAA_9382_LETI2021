@@ -80,6 +80,9 @@ class Table // исходный квадрат
                 for(int y = i; y < i + n; y++){
                     for (int x = j; x < j + n; x++){
                         table[y][x] = n;
+                        std::cout<<"The coordinates of the upper-left corner of the inserted square: ( ";
+                        std::cout<<y<<" , "<< x<<")"<<std::endl;
+                        std::cout<<"the current side of the square: "<<n<<std::endl;
                     }
                 }
                 ++count;
@@ -137,7 +140,7 @@ class Table // исходный квадрат
                     insertTable(size/3, (2*size)/3, size/3);
                     insertTable((2*size)/3, size/3, size/3);
 
-                }
+                    }
 
                 for (int i = 0; i < size; ++i) {
                     std::cout<<"\n";
@@ -152,6 +155,7 @@ class Table // исходный квадрат
 Table best(0);
 
 Table backTracking(Table table, int i, int j, int pr){
+
     for(int n = table.getsize() / 2; n > 0; n--){
         for(int l=0; l < pr; l++)
             std::cout << " ";
@@ -222,19 +226,20 @@ int main(){
     Table A(size);
     A = backTracking(A, A.findi(0), A.findj(0),0);
     clock_t end = clock();
-    if(size%2==0){
-        res(size, 2);
-    } else if(size%3==0){
-        res(size, 3);
-    } else {
-        std::cout << "Best partition:"<< bestNum << std::endl;
-        best.result();
-    }
-    if(size%2==0 || size%3==0 ){
-        A.shower_table();
-    }
-    else
-        best.shower_table();
     std::cout << "Lead time: " << (double )(end - start) / CLOCKS_PER_SEC << "\n";
+if(size%2==0){
+    res(size, 2);
+} else if(size%3==0){
+    res(size, 3);
+} else {
+    std::cout << "Best partition:"<< bestNum << std::endl;
+    best.result();
+}
+if(size%2==0 || size%3==0 ){
+    A.shower_table();
+}
+else{
+    best.shower_table();
+}
     return 0;
 }
