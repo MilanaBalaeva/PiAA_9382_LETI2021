@@ -26,6 +26,8 @@ public:
 std::vector<Bohr> bohr;
 int cross_count = -1;
 bool is_cross = false;
+
+
 void init_bohr() {
     std :: cout << "Start building the bohr \n";
     std::cout<<"The root is denoted as #"<< std::endl;
@@ -67,7 +69,7 @@ int get_suff_link(int v) {
         }
     else{
         std :: cout << "Follow the parent's suffix link \n";
-        std::cout<<"Parent is "<< bohr[v].parent << std::endl;
+        std::cout<<"Parent is "<< bohr[bohr[v].parent].symbol << std::endl;
         bohr[v].suff_link = get_auto_move(get_suff_link(bohr[v].parent), bohr[v].symbol);
     }
         return bohr[v].suff_link;
@@ -96,10 +98,21 @@ void checkout(int u, int i, const std::string& s, std::vector<int>& count, std::
     for (int tmp = u; tmp != 0; tmp = get_suff_link(tmp)) {
         if (bohr[tmp].flag) {
             for (int j = 0; j < bohr[tmp].pattern_num.size(); j++) {
+                // если находится в промежутке от 0 до размера текста - размер паттерна
                 if ((i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size() >= 0) && (i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size() <= s.size() - pat_len)) {
+                   std::cout<<"";
                     count[i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size()]++;
+                    std::cout << "Terminal vertex," << "subpattern = " << pat_mass[bohr [tmp].pattern_num[j] - 1] << "\n";
                     if (count[i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size()] == pattern_offset_mass.size()) {
-
+                        std::cout << "Pattern occurrence found" << '\n';
+                        std::cout<<"Is there an overlap with other found patterns in the search bar."<<std::endl;
+                        if (cross_count != -1 && i - cross_count < pattern.length() + pattern.length()) {
+                            std::cout<<"The intersection with other found patterns in the search bar is."<<std::endl;
+                            is_cross = true;
+                        } else{
+                            std::cout<<"There is no intersection with other found patterns in the search bar"<<std::endl;
+                        }
+                        cross_count = i - pattern.length() + 1;
                     }
                 }
             }
@@ -167,7 +180,7 @@ void out(std::vector<int>& count, int pat_counter, std::string& s, std::string p
     if (!is_cross)
         std::cout<<" , empty"<< std::endl;
     else{
-        std::cout<<":\n";
+        std::cout<<"\n";
         std::cout<<pattern<<std::endl;
     }
 }
@@ -191,5 +204,6 @@ int main()
 
     std::cout<<std::endl;
     out(count, patt_mass.size(), text, pattern);
+
     return 0;
 }
