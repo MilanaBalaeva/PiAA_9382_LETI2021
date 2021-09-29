@@ -98,7 +98,7 @@ void checkout(int u, int i, const std::string& s, std::vector<int>& count, std::
     for (int tmp = u; tmp != 0; tmp = get_suff_link(tmp)) {
         if (bohr[tmp].flag) {
             for (int j = 0; j < bohr[tmp].pattern_num.size(); j++) {
-                // если находится в промежутке от 0 до размера текста - размер паттерна
+            
                 if ((i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size() >= 0) && (i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size() <= s.size() - pat_len)) {
                    std::cout<<"";
                     count[i + 1 - pattern_offset_mass[bohr[tmp].pattern_num[j] - 1] - pat_mass[bohr[tmp].pattern_num[j] - 1].size()]++;
