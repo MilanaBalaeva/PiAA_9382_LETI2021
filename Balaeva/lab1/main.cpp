@@ -109,21 +109,30 @@ class Table // исходный квадрат
                             return x;
                         }
             }
-            void deleteTable(int i, int j){
-                int val = table[i][j];
+            void deleteTable(std::vector<std::vector<int>> &arr, int i, int j){
+                int val = arr[i][j];
                 for (int y = i; y < i + val; y++)
                     for (int x = j; x < j + val; x++)
-                        table[y][x] = 0;
+                        arr[y][x] = 0;
+            }
+            std::vector<std::vector<int>> copyTable(std::vector<std::vector<int>> table) {
+              std::vector<std::vector<int>> copy; 
+              for(int i = 0; i < size; i++){
+                std::vector<int> v(table[i]);
+                copy.push_back(v);
+              }
+              return copy;
             }
             void result(){
-                for(int i = 0; i < size; i++){
-                    for(int j = 0; j < size; j++){
-                        if(table[i][j] != 0){
-                            std::cout << i + 1 << " " << j + 1 << " " << table[i][j] << std::endl;
-
-                        }
+              std::vector<std::vector<int>> copy = copyTable(table);
+              for(int i = 0; i < size; i++){
+                  for(int j = 0; j < size; j++){
+                    if(copy[i][j] != 0){
+                      std::cout << i + 1 << " " << j + 1 << " " << copy[i][j] << std::endl;
+                      deleteTable(copy, i, j);
                     }
                 }
+              }
             }
             void shower_table(){
                 if(size%2==0){
