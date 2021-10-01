@@ -40,7 +40,17 @@ std::vector < size_t > kmp (std::string s, std::string t)
     std :: cout << "\n Searches for the pattern " << t << "in the string " << s << "\n";
     for (size_t i = 0; i < s.size(); i++)
     {
-        while (j > 0 && t[j] != s[i]) j = prefix_func[j - 1];
+        while (j > 0 && t[j] != s[i]){
+            if (j < t.size()) {
+                std::cout << "The character of the pattern " << t[j] << " with the index " << j << " is not equal to the character of the string " << s[i] << " with the index " << i<<". ";
+                std::cout << "A new index is calculated.\n";
+            }
+            else {
+                std::cout << "End of the pattern. New index is calculated.\n";
+            }
+            j = prefix_func[j - 1];
+            std::cout << "New index: " << j<<std::endl;
+        }
         if (t[j] == s[i]){
 
             std :: cout << j << "th character of pattern (" << t[j] << ") and " << i << "th character of string (" << s[i] << ") match \n ";
